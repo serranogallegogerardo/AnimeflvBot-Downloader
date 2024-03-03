@@ -2,8 +2,6 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 from lxml import html
 import json
-from scrapy.utils.project import get_project_settings
-
 
 class AnimeFLVSpider(scrapy.Spider):
     name = 'animeflv'
@@ -35,12 +33,7 @@ class AnimeFLVSpider(scrapy.Spider):
 # Crear un diccionario para almacenar todos los capítulos
 all_chapters = {}
 
-class ProxyMiddleware:
-    def process_request(self, request, spider):
-        proxy = request.meta.get('proxy')
-        print(f'Using proxy: {proxy}')
-
-process = CrawlerProcess(get_project_settings())
+process = CrawlerProcess()
 process.crawl(AnimeFLVSpider)
 process.start()
 
