@@ -1,6 +1,7 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
 from lxml import html
+import json
 
 class AnimeFLVSpider(scrapy.Spider):
     name = 'animeflv'
@@ -17,3 +18,7 @@ class AnimeFLVSpider(scrapy.Spider):
 process = CrawlerProcess()
 process.crawl(AnimeFLVSpider)
 process.start()
+
+# Save the download links to a JSON file
+with open('download_links.json', 'w') as f:
+    json.dump(download_links, f)
