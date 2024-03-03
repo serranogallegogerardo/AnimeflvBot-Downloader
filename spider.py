@@ -15,10 +15,10 @@ class AnimeFLVSpider(scrapy.Spider):
                 'download_link': link
             }
 
+        # Save the download links to a JSON file
+        with open('download_links.json', 'w') as f:
+            json.dump(download_links, f)
+
 process = CrawlerProcess()
 process.crawl(AnimeFLVSpider)
 process.start()
-
-# Save the download links to a JSON file
-with open('download_links.json', 'w') as f:
-    json.dump(download_links, f)
