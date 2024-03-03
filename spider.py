@@ -19,6 +19,12 @@ class AnimeFLVSpider(scrapy.Spider):
         with open('download_links.json', 'w') as f:
             json.dump(download_links, f)
 
+        # Check if there is a next page link
+        next_page_link = tree.xpath('//a[@class="CapNvNx fa-chevron-right"]/@href')
+        if next_page_link:
+            # Follow the next page link and continue scraping
+            yield response.follow(next_page_link[0], callback=self.parse)
+
 process = CrawlerProcess()
 process.crawl(AnimeFLVSpider)
 process.start()

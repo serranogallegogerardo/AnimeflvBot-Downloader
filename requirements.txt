@@ -1,1 +1,2 @@
 scrapy==2.11.1
+selenium==4.18.1
