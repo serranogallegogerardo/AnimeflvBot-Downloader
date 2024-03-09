@@ -1,6 +1,8 @@
-import scrapy
 import json
+import sys
+import scrapy
 from scrapy import cmdline
+import subprocess
 
 # Conjunto de links procesados (sin duplicados)
 links_procesados = set()
@@ -19,14 +21,14 @@ class AnimeflvSpider(scrapy.Spider):
     allowed_domains = ['www3.animeflv.net']
 
     def start_requests(self):
-        # Solicitar al usuario el nombre del anime
-        anime_name = input("Ingrese el nombre del anime: ")
+        # Leer el nombre del anime desde la entrada estándar
+        anime_name = sys.argv[1] if len(sys.argv) > 1 else input("Ingrese el nombre del anime: ")
 
         # Agregar el nombre del anime al URL de búsqueda
         search_url = f"https://www3.animeflv.net/browse?q={anime_name}"
 
         # Realizar la solicitud GET al URL de búsqueda
-        yield scrapy.Request(search_url, callback=self.parse_search_results)
+        yield scrapy.Request(search_url, callback=self.parse_search_results, meta={'anime_name': anime_name})
 
     def parse_search_results(self, response):
         # Encontrar todos los enlaces que coincidan con la búsqueda
@@ -35,19 +37,27 @@ class AnimeflvSpider(scrapy.Spider):
         # Procesar los enlaces encontrados
         procesar_links(anime_links)
 
-        print(links_procesados)
-        
+        # Ejecutar el siguiente script y pasar el nombre del anime como argumento
+        for episode_link in links_procesados:
+            print(episode_link)
+            subprocess.run(["python", "getFirstEpisode.py", episode_link])
 
-        # Guardar los enlaces procesados en un archivo JSON
-        with open('animeSeasons.json', 'w') as file:
-            json.dump(list(links_procesados), file)
+        # old code
+        # Procesar los enlaces encontrados
+        # procesar_links(anime_links)
+
+        # print(links_procesados)
+
+        # # Guardar los enlaces procesados en un archivo JSON
+        # with open('animeSeasons.json', 'w') as file:
+        #     json.dump(list(links_procesados), file)
+
+        # # Imprimir un mensaje indicando que se han guardado los enlaces en el archivo JSON
+        # print("Los enlaces procesados se han guardado en 'anime_links.json'")
 
         # Imprimir un mensaje indicando que se han guardado los enlaces en el archivo JSON
-        print("Los enlaces procesados se han guardado en 'anime_links.json'")
+        print("Los enlaces procesados se pasaron al próximo script.")
 
 if __name__ == "__main__":
     # Ejecutar la araña
     cmdline.execute("scrapy runspider getAnimeSeasons.py".split())
-    
-
-

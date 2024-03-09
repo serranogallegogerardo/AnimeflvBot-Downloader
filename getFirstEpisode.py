@@ -1,46 +1,34 @@
+import sys
 import json
 from requests_html import HTMLSession
+import subprocess
 
-# Abre el archivo JSON
-with open('animeSeasons.json') as f:
-    links = json.load(f)
+if __name__ == "__main__":
+    # Obtener la lista de enlaces como argumentos de línea de comandos
 
-# Inicializa una lista para almacenar los enlaces de los episodios
-episode_links_list = []
+    #desarmar rompecabezas comentando esto
+    links = sys.argv[1:]
+    
+    # Tu código para procesar los enlaces
+    episode_links_list = []
+    session = HTMLSession()
 
-# Crea una sesión HTML
-session = HTMLSession()
+    for link in links:
+        r = session.get(link)
+        r.html.render()
+        episodes = r.html.find('.ListCaps li a')
 
-# Itera sobre la lista de enlaces
-for link in links:
-    # Envía una solicitud para obtener el contenido de la página web
-    r = session.get(link)
+        if episodes:
+            first_episode = episodes[-1]
+            episode_link = first_episode.absolute_links.pop()  
+            episode_links_list.append(episode_link)
+            print("Enlace del primer episodio:", episode_link)
+        else:
+            print("No se encontraron episodios disponibles para", link)
 
-    # Espera a que la página se renderice completamente
-    r.html.render()
+    session.close()
 
-    # Encuentra los elementos que contienen los enlaces de los capítulos
-    episodes = r.html.find('.ListCaps li a')
+    # Pasar episode_links_list a otro script usando subprocess
 
-    # Verifica si hay algún episodio disponible
-    if episodes:
-        # Obtiene el primer episodio
-        first_episode = episodes[-1]
-        episode_link = first_episode.absolute_links.pop()  # Extrae el enlace absoluto
-
-        # Agrega el enlace del episodio a la lista
-        episode_links_list.append(episode_link)
-
-        print("Enlace del primer episodio:", episode_link)
-    else:
-        print("No se encontraron episodios disponibles para", link)
-
-# Cierra la sesión
-session.close()
-
-# Guarda la lista de enlaces de episodios en un archivo JSON
-with open('firstEpisodes.json', 'w') as f:
-    json.dump(episode_links_list, f)
-
-# Imprime un mensaje de confirmación
-print("Lista de enlaces de episodios guardada en 'firstEpisodes.json'.")
+    print(episode_links_list)
+    subprocess.run(["python", "getAllLInks.py"] + episode_links_list)
