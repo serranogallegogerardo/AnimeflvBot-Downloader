@@ -1,15 +1,16 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton
-from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtGui import QPixmap, QFont, QFontDatabase
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 import subprocess
+import os
 
 class CombinedWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Combined Window")
+        self.setWindowTitle("AnimeflvBot-Downloader")
         self.setGeometry(100, 100, 400, 500)  # Ajustar según sea necesario
 
         # Establecer tamaño mínimo de la ventana
@@ -48,16 +49,21 @@ class CombinedWindow(QMainWindow):
     def add_white_fields(self, layout):
         # Añadir el primer campo blanco (QLineEdit para la entrada del usuario)
         self.anime_name_input = QLineEdit(self)
-        self.anime_name_input.setPlaceholderText("Boku no hero")
+        self.anime_name_input.setPlaceholderText(" Boku no hero")
         self.anime_name_input.returnPressed.connect(self.send_anime_name)
         # Aplicar estilo para centrar el texto del marcador de posición
         self.anime_name_input.setStyleSheet("background-color: white; border-radius: 10px; border: 2px solid rgb(0, 150, 255); padding: 5px; text-align: center;")
         # Establecer tamaño mínimo y fijo
         self.anime_name_input.setMinimumSize(370, 35)
         self.anime_name_input.setFixedSize(370, 35)
-        # Establecer fuente de anime
-        anime_font = QFont("TuFuenteDeAnime", 12)  # Reemplazar "TuFuenteDeAnime" con el nombre de tu fuente de anime
+
+        # Cargar la fuente desde el archivo TTF
+        ruta_fuente = os.path.join(os.path.dirname(__file__), "graphicInterface", "jackpot.ttf")
+        font_id = QFontDatabase.addApplicationFont(ruta_fuente)
+        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        anime_font = QFont(font_family, 12)
         self.anime_name_input.setFont(anime_font)
+
         layout.addWidget(self.anime_name_input, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Añadir algo de espacio entre los campos blancos
@@ -65,7 +71,7 @@ class CombinedWindow(QMainWindow):
 
     def send_anime_name(self):
         anime_name = self.anime_name_input.text()
-        print("Nombre del anime:", anime_name)
+        print("anime name:", anime_name)
 
         # Ejecutar codigo2.py como un proceso secundario y pasar el nombre del anime como argumento
         subprocess.run(["python", "getAnimeSeasons.py", anime_name])
