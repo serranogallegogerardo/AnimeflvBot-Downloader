@@ -6,7 +6,7 @@
 
 1. Execute `AnimeflvBot-Downloader.bat`.
 2. If it's your first time, you'll need to install all dependencies.
-3. Enter the name of the anime you want, for example, "Berserk" or "Boku no Hero".
+3. Enter the name of the anime you want, for example, "Berserk" or "Boku no Hero" and press "Enter"
 4. Loading, you need to wait.
 5. You'll then be able to retrieve all episodes in JSON format.
 
