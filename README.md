@@ -1,6 +1,8 @@
 ### AnimeflvBot-Downloader.bat Readme
 
-#### How to Use:
+#### How to Use: 
+
+![image](https://github.com/serranogallegogerardo/AnimeflvBot-Downloader/assets/98660245/60548ed8-840b-4122-b3f5-db2417f68c32)
 
 1. Execute `AnimeflvBot-Downloader.bat`.
 2. If it's your first time, you'll need to install all dependencies.
@@ -10,3 +12,5 @@
 #### Recommendations:
 
 - I recommend using Mipony for downloading. Alternatively, if you have a Mega premium account, you can use that.
+
+
