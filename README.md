@@ -1,5 +1,20 @@
 ### AnimeflvBot-Downloader.bat Readme
 
+### Requirements:
+
+Python 3.11.4
+https://www.python.org/downloads/release/python-3114/
+
+You can use "AnimeflvBot-Downloader.bat" or install manual.
+
+### Dependencies
+scrapy==2.11.1
+requests_html==0.10.0
+pyppeteer==1.0.2
+PyQt5==5.15.10
+virtualenv==20.24.4
+
+
 #### How to Use: 
 
 1. Execute `AnimeflvBot-Downloader.bat`.
