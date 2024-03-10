@@ -32,3 +32,5 @@ virtualenv==20.24.4
 Json output:
 ![image](https://github.com/serranogallegogerardo/AnimeflvBot-Downloader/assets/98660245/6c6b042d-a88f-499b-a186-72a4ab9edc3d)
 
+### Disclaimer: 
+This project is intended solely for educational purposes and to promote programming practice. It is not intended to encourage piracy or infringe copyright laws. All provided content must be used in accordance with applicable laws and the terms of use of the resources involved. The user is responsible for ensuring compliance with local regulations and respecting the intellectual property rights of third parties. Misuse or illegal use of the content is the sole responsibility of the user.
