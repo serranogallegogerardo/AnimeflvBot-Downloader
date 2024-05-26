@@ -58,9 +58,18 @@ class CombinedWindow(QMainWindow):
         self.anime_name_input.setFixedSize(370, 35)
 
         # Cargar la fuente desde el archivo TTF
+                
         ruta_fuente = os.path.join(os.path.dirname(__file__), "graphicInterface", "jackpot.ttf")
         font_id = QFontDatabase.addApplicationFont(ruta_fuente)
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        font_families = QFontDatabase.applicationFontFamilies(font_id)
+
+        if font_families:
+            # Si se encuentran fuentes para el identificador proporcionado, utilizamos la primera
+            font_family = font_families[0]
+        else:
+            # Si no se encuentran fuentes, utilizamos una fuente del sistema predeterminada
+            font = QFontDatabase.systemFont(QFontDatabase.GeneralFont)
+            font_family = font.family()
         anime_font = QFont(font_family, 12)
         self.anime_name_input.setFont(anime_font)
 
